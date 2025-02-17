@@ -1,0 +1,27 @@
+name: "CodeQL Analysis"
+ 
+on:
+  pull_request:
+    branches:
+      - master  # Se ejecutará en PR hacia master
+ 
+jobs:
+  analyze:
+    runs-on: self-hosted  # Usa el runner auto-hospedado
+ 
+    permissions:
+      security-events: write  # Necesario para reportar problemas de seguridad
+      actions: read
+      contents: read
+ 
+    steps:
+      - name: Checkout del código
+        uses: actions/checkout@v4
+ 
+      - name: Configurar CodeQL
+        uses: github/codeql-action/init@v2
+        with:
+          languages: python  # O cambia según el lenguaje de tu proyecto
+ 
+      - name: Ejecutar análisis de CodeQL
+        uses: github/codeql-action/analyze@v2
