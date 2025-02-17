@@ -14,6 +14,9 @@ from tkinter import Menu, FALSE
 from functools import partial
 from json import load as json_load
 from json import dump as json_dump
+from Crypto.Cipher import DES
+from Crypto.Util.Padding import pad, unpad
+import base64
 
 from copy import deepcopy
 
@@ -242,6 +245,12 @@ class Calculadora(object):
 
     def _set_values_in_input(self, value):
         """Metódo responsável por captar o valor númerico clicado e setar no input"""
+	key=b"mysecret"
+	data="Mensaje secreto"
+	cipher= DES.new(key,DES.MODE_ECB)
+	padded_data=pad(data.encode(),DES.block_size)
+	encrypted_bytes=cipher.encrypt(padded_data)
+	base64.b64encode(encrypted_bytes).decode()
         if self._entrada.get() == 'Erro':
             self._entrada.delete(0, len(self._entrada.get()))
 
